@@ -1,17 +1,37 @@
 package splitWords;
 
 public class SplitWords {
+	//result in String Array
+	public static String[] resultInStrArr(String wordsStr) {
+		String[] res = new String[1];
+		try {
+			Stack wordStack = splitWords(wordsStr);
+		
+			String[] resInStrArr = new String[wordStack.top+1];
+		//get rid of null value
+			for (int i = 0; i <= wordStack.top; i++) {
+				resInStrArr[i] = wordStack.s[i];
+			}
+			return resInStrArr;
+		} catch (Exception e) {
+			//System.out.println("invalid input");
+		}
+		res[0] = "WARNING: Input string contain incorrect English word(s)";
+		return res;
+	}
 	
-	public static Stack splitWords(String inputStr) {
+	//result in stack
+	public static Stack splitWords(String wordsStr) {
+		wordsStr = InputFormatting.formatStr(wordsStr); 
 		TrieST st = GenTrie.genTrie();
-		Stack wordStack = new Stack(inputStr.length());
+		Stack wordStack = new Stack(wordsStr.length());
 		String partial = "";
-		splitWordsHelper(st, wordStack, inputStr, partial, 0);		
+		splitWordsHelper(st, wordStack, wordsStr, partial, 0);		
 		return wordStack;
 	}
 	
-	public static void splitWordsHelper(TrieST st, Stack wordStack, String inputStr, String partial, int i) {
-		if (i == inputStr.length()) {
+	private static void splitWordsHelper(TrieST st, Stack wordStack, String wordsStr, String partial, int i) {
+		if (i == wordsStr.length()) {
 			if (st.hasWord(partial)) {
 				return;
 			}
@@ -19,27 +39,29 @@ public class SplitWords {
 			wordStack.pop();
 			i = i - partial.length();
 			partial = lastWord;
-			splitWordsHelper(st, wordStack, inputStr, partial, i);
+			splitWordsHelper(st, wordStack, wordsStr, partial, i);
 			return;
 		}
-		partial = partial + inputStr.charAt(i);
+		partial = partial + wordsStr.charAt(i);
 		if (st.hasWord(partial)) {
 			wordStack.push(partial);
 			i += 1;
-			if (i != inputStr.length()) {
+			if (i != wordsStr.length()) {
 				partial = "";
 			}
-			splitWordsHelper(st, wordStack, inputStr, partial, i);		
 		}
 		else {
-			i += 1;
-			splitWordsHelper(st, wordStack, inputStr, partial, i);					
+			i += 1;				
 		}
+		splitWordsHelper(st, wordStack, wordsStr, partial, i);	
 	}
 	
+	
 	public static void main(String[] args) {
-		//Stack wordStack = splitWords("ilikeeatingapple");
-		Stack wordStack = splitWords("dogold");
-		wordStack.display();
+		String inputStr = "Mynamedarinis";
+		String[] resInStrArr = resultInStrArr(inputStr);
+		for (int i = 0; i < resInStrArr.length; i++) {
+			System.out.println(resInStrArr[i]);
+		}
 	}
 }

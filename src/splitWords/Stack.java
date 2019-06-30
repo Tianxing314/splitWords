@@ -2,9 +2,9 @@ package splitWords;
 
 
 public class Stack {
-	private String[] s;
-	private int size;
-	private int top;
+	public String[] s;
+	public int size;
+	public int top;
 
 	public Stack(int maxSize) {
 		this.size = maxSize;
@@ -28,19 +28,18 @@ public class Stack {
 
 	public String peek() {
 		if(isEmpty()) {
-			System.out.println("stack is empty");
+			//System.out.println("stack is empty");
 			return "stack is empty";
 		}
 		return s[top];
 	}
 
 	public void pop() {
-		if(isEmpty()) {
-			System.out.println("stack is empty");
+		if(!isEmpty()) {
+			//System.out.println("stack is empty");
+			top--;
 			//return "stack is empty";
 		}
-		top--;
-		//return s[top--];
 	}
 
 	public int size() {
@@ -55,8 +54,15 @@ public class Stack {
 		return (top == size - 1);
 	}
 
-	public void display() {
+	public void displayAsStack() {
 		for (int i = top; i >= 0; i--) {
+			System.out.println(s[i] + " ");
+		}
+		System.out.println("");
+	}
+	
+	public void displayAsQueue() {
+		for (int i = 0; i <= top; i++) {
 			System.out.println(s[i] + " ");
 		}
 		System.out.println("");
