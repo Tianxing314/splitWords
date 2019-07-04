@@ -9,49 +9,15 @@ source: http://www.gwicks.net/dictionaries.htm
 (USA English 61000 words)
 
 VERSION 0.0.1
-1. splitWords(words, mode)  
-Assumptions:
-   - a. The words that the program is dealing with are from the usa.txt only.
-   - b. Can include non-letter characters
-   - c. The undivided words in input string are correct in terms of spelling after getting rid of non-letter characters.
-   
-ie. 
-valid: Hel@lo, hell&owo6rld
-invalid: Helllo, hellow#world
-Input:
-words: character string type. maximum of 50 characters()
-mode: int type which can choose from below
-   - a. return all possible combinations as result
-      ie.  parameter words is "uppercaseletter", the result should be "up per case letter; upper case letter; uppercase letter"
-   - b. return the best option:
-  ie. the same input words as above shall output "uppercase letter"
-   - Output: A character string type contains the divided words based on the mode, which is described above.
-   - Helper functions: filter(), forceSplit(), toHash(), getValue()
+API: splitWords.resultInStrArr(inputStr)
 
-2. filter(words)  
-   - Input: a character string contains all ASCII characters
-   - Output: a chracter string contains letter charactrs only, and the order should be consistent with the input string
+Input: String inputStr
+The inputStr contains a string of English words which are included in the usa.txt file only. The space between words can be missing, and non-letter characters can be presented in the inputStr. The words in inputStr MUST BE CORRECT(ie. words must be in the text file usa.txt which can be replaced by user's own file)! For example, "Hel*lowO%r3ld" is valid but "Hel*loO%r3ld" IS NOT, as the second string after formatting and filtering is "helloorld", which can not be intepreted and saparated.
 
-3. forceSplit(filtered_words)  
-   - Input: a character string contains letter character only
-   - Output: a character string contains the first correct word from filtered_words
-   - helper function: toHash(), getValue(),
+Output: String[]
+The output is a string array which contains separated words one in each string index block. The result of inputting "Hel*lowO%r3ld" is ["hello", "world"], and the result of invalid input "Hel*loO%r3ld" will be a warning ["WARNING: Input string contain incorrect English word(s)"]. 
 
-4. genHashTable(wordsData)  
-   - input: usa.txt 
-   - output: void. convert the wordsData to hashtable
-   - helper functions: insert
+Constraints:
+The API is designed to separate words NOT based on the English language syntax or sysmantics. The output will be first-word_favoured. For example, if the inputStr is "iamamonster", the output will be ["i", "a", "ma", "monster"] NOT ["i", "am", "a", "monster"]. The reason is that both "a" and "ma" are valid words in usa.txt file, thus, when seeing "ama", the method will favoureds first word which is "a". If word "ma" is deleted from usa.txt file, the output will then be ["i", "am", "a", "monster"] because there is not way to separate the inputStr if the first two words are ["i", "a"]. 
 
-5. insert(word)  
-   - Input: one word from usa.txt
-   - Output: void. Add the word to hashtable
-   - Helper function: toHash
-
-6. toHash(word)
-   - Input: a string of letter characters
-   - Output: a hashtable key of type integer
-
-7. getValue()
-   - Input: hash key in integer
-   - Output: correponding word of char string type
-
+The text file usa.txt which contains ~61000 English words is encouraged to be replaced by user's own words text file chosen based on the project's scope and usecase. If the project's scope is to separate words to make a shopping list, then the usa.txt should be replaced to the text file containing variety of merchandise names only. Text file containing too much words beyond the project's scope will cause problem! 
